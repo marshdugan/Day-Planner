@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+    integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous" />
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="Assets/style.css" />
+  <title>Work Day Scheduler</title>
+</head>
+
+<body>
+  <header class="jumbotron">
+    <h1 class="display-3">Work Day Scheduler</h1>
+    <p class="lead">A simple calendar app for scheduling your work day</p>
+    <p id="currentDay" class="lead"></p>
+  </header>
+  <div class="container">
+    <!-- Timeblocks go here -->
+  </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+  <script type="text/javascript">
+    //creating own object
+    var d = new Date();
+    //setting the date with arrays from w3schools
+    var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    $("#currentDay").text(days[d.getDay()] + ", " + months[d.getMonth()] + " " + d.getDate() + ", " + d.getFullYear());
+    var currentTime = d.getHours();
+    
+
+    for (var i = 9; i <= 17; i++) {
+      var timeForm = $("<form>");
+      var buttonForm = $("<form>");
+      var newButton = $("<input>");
+      var newInput = $("<input>");
+      timeForm.append(newInput);
+      buttonForm.append(newButton);
+      var timeCol = $("<div>");
+      var desCol = $("<div>");
+      var btnCol = $("<div>");
+      timeCol.attr("class", "col-1");
+      desCol.attr("class", "col-10");
+      btnCol.attr("class", "col-1");
+      var newRow = $("<div>");
+      //converting from military time
+      if (i > 12) {
+        newRow.attr({ "id": "row" + (i - 12), "class": "row" });
+        //setting background color based on current time
+        newRow.css("background-color", "#9cffa4");
+          if (currentTime > i) {
+            newRow.css("background-color", "#ffbaba");
+          } else if (currentTime === i) {
+            newRow.css("background-color", "#bacfff");
+          }
+        timeCol.text(i - 12 + "PM");
+        newInput.attr({ "type": "text", "id": "planner-input" + (i - 12) });
+        newButton.attr({ "type": "submit", "value": "Add", "id": (i -12), "class": "addBtn"});
+        desCol.attr("id", "col" + (i - 12));
+      //uses i to index correct ID (notice the i-12 above)
+      } else {
+        newRow.attr({ "id": "row" + i, "class": "row" });
+        newRow.css("background-color", "#9cffa4");
+          if (currentTime > i) {
+            newRow.css("background-color", "#ffbaba");
+          } else if (currentTime === i) {
+            newRow.css("background-color", "#bacfff");
+          }
+        newInput.attr({ "type": "text", "id": "planner-input" + i});
+        newButton.attr({ "type": "submit", "value": "Add", "id": i, "class": "addBtn" });
+        desCol.attr("id", "col" + i);
+        //for the single case when it is noon
+        if (i !== 12) {
+          timeCol.text(i + "AM");
+        } else {
+          timeCol.text(i + "PM");
+        }
+      }
+      btnCol.append(newButton);
+      desCol.append(timeForm);
+      newRow.append(timeCol, desCol, btnCol);
+      $(".container").append(newRow);
+    }
+
+    //adds when button is clicked
+    $(".addBtn").on("click", function(event) {
+      event.preventDefault();
+      var buttonID = $(this).attr("id");
+      var newTask = $("<p>");
+      //places the task in the correct column corresponding to the button
+      newTask.text($("#planner-input" + buttonID).val());
+      var rowID = $("#row" + buttonID);
+      $("#col" + buttonID).append(newTask.text());
+      //set local storage here
+    });
+    //to stop the page form resetting
+    $("form").on("submit", function(event) {
+      event.preventDefault();
+    });
+  </script>
+</body>
+
+</html>

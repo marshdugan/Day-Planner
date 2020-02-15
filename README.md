@@ -1,1 +1,5 @@
 # Day-Planner
+
+This program allows the user to add tasks to a simple business hour day planner. The time is displayed on its own colored row containing an input box as well as a add button. Based on the current time of day, the background color of the row will change to indicate past, present, or future. Click events catch any page refreshes, and when the button is clicked the task is appended under the input box in the same column. 
+
+Unfortunatly, the "style.css" file was overlooked, thus I added custom CSS to my html via javascript. Preset class names and styles were given in the style.css file that would have streamlined some of the class and css creation. I discovered this with little time left to change the class names and structure, but it is an easy fixed. Additionally, the local storage aspect of my code is not included - I thought I had an unserstanding of the .getItme() and .setItem() methods. I need to study this more and practice using objects and JSON.stringify to manipulate items with ambiguous IDs.
